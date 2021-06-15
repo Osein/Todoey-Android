@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.*
 import com.google.android.material.snackbar.Snackbar
 import com.osein.todoey.R
@@ -28,7 +27,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentListBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -38,7 +37,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         }
         binding.todoListRecyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         setupSwipeToDelete(binding.todoListRecyclerView)
-        viewModel.getTodos.observe(viewLifecycleOwner, Observer {
+        viewModel.getTodos.observe(viewLifecycleOwner, {
             viewModel.checkIfEmpty(it)
             adapter.setTodoList(it)
         })
@@ -58,12 +57,12 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.todoListMenuSortItemPriorityHigh -> viewModel.getTodosSortedByHigh.observe(
-                viewLifecycleOwner, Observer {
+                viewLifecycleOwner, {
                     adapter.setTodoList(it)
                 }
             )
             R.id.todoListMenuSortItemPriorityLow -> viewModel.getTodosSortedByLow.observe(
-                viewLifecycleOwner, Observer {
+                viewLifecycleOwner, {
                     adapter.setTodoList(it)
                 }
             )
@@ -87,7 +86,7 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun searchTodos(query: String) {
-        viewModel.searchTodos("%$query%").observeOnce(this, Observer {
+        viewModel.searchTodos("%$query%").observeOnce(this, {
             it.let {
                 adapter.setTodoList(it)
             }

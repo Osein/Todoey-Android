@@ -32,14 +32,6 @@ open class BaseViewModel(application: Application): AndroidViewModel(application
         }
     }
 
-    fun getPrioritySpinnerIndex(priority: Priority): Int {
-        return when(priority) {
-            Priority.HIGH -> 0
-            Priority.MEDIUM -> 1
-            else -> 2
-        }
-    }
-
     fun validateTodoInputData(title: String, description: String): Boolean {
         return !(TextUtils.isEmpty(title) || TextUtils.isEmpty(description))
     }

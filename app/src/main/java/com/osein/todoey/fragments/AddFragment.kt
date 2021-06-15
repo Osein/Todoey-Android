@@ -20,7 +20,7 @@ class AddFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAddBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
         binding.addNewTodoPriority.onItemSelectedListener = viewModel.prioritySpinnerListener

@@ -16,18 +16,16 @@ abstract class TodoDatabase: RoomDatabase() {
         @Volatile
         private var instance: TodoDatabase? = null
 
-        fun getDatabase(context: Context): TodoDatabase {
-            if (instance != null) return instance as TodoDatabase
-
-            synchronized(this) {
-                instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    TodoDatabase::class.java,
-                    "todo_database"
-                ).build()
-                return instance as TodoDatabase
+        fun getDatabase(context: Context): TodoDatabase = instance
+            ?: synchronized(this) {
+                buildDatabase(context)
             }
-        }
+
+        private fun buildDatabase(context: Context): TodoDatabase = Room.databaseBuilder(
+            context.applicationContext,
+            TodoDatabase::class.java,
+            "todo_database"
+        ).build()
     }
 
 }

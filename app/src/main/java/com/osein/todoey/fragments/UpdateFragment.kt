@@ -23,7 +23,7 @@ class UpdateFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentUpdateBinding.inflate(inflater, container, false)
         binding.args = args
         binding.updateTodoPriority.onItemSelectedListener = todoViewModel.prioritySpinnerListener
